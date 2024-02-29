@@ -10,7 +10,7 @@ const items = inject('items')
 
 <template>
     <div class="flex">
-        <button class="box shadow" @click="$emit('itemPilih', index)" v-for="(item, index) in items">{{ item }}</button>
+        <button class="box shadow" @click="$emit('itemPilih', index)" v-for="(item, index) in items">{{ item[0] }}</button>
     </div>
 </template>
 

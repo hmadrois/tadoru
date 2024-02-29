@@ -6,13 +6,19 @@ import MainEditor from './components/editor.vue'
 
 import { provide, reactive, ref } from 'vue';
 
-const items = ref(["a", "b", "c"])
+const items = ref([
+    ['a', 'qwe'],
+    ['b', 'asd'],
+    ['c', 'zxc'],
+])
 
 const editing = ref(false)
 const notes = reactive({
     judul: '',
-    isi: ''
+    isi: '',
 })
+
+const selected = ref(-1)
 
 provide('items', items)
 provide('editing', editing)
@@ -23,23 +29,29 @@ function itemTambah(){
 }
 
 function itemPilih(index){
-    notes.judul = items.value[index]
+    notes.judul = items.value[index][0]
+    notes.isi = items.value[index][1]
+    selected.value = index
     editing.value = true
 }
 
-function kembali(judul, isi){
-    console.log(judul, isi)
-    notes.judul = ''
-    notes.isi = ''
+function kembali(localNotes){
+    items.value[selected.value][0] = localNotes.judul
+    items.value[selected.value][1] = localNotes.isi
+    // notes.judul = ''
+    // notes.isi = ''
     editing.value = false
+    selected.value = -1
 }
 
 </script>
 
 <template>
-    <MainHeader @item-tambah="itemTambah" />
-    <MainContent @item-pilih="itemPilih" />
-    <MainEditor @kembali="kembali" />
+    <div class="content-container">
+        <MainHeader @item-tambah="itemTambah" />
+        <MainContent @item-pilih="itemPilih" />
+        <MainEditor @kembali="kembali" />
+    </div>
 </template>
 
 <style>
@@ -48,6 +60,17 @@ function kembali(judul, isi){
 * {
     font-family: "Montserrat";
     font-weight: bold;
+}
+
+.content-container {
+    margin: 20px 0;
+}
+
+@media (min-width: 600px){
+    .content-container { margin: 20px 10%; }
+}
+@media (min-width: 1200px){
+    .content-container { margin: 20px 20%; }
 }
 
 .box {

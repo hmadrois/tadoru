@@ -1,22 +1,30 @@
 <script setup>
-import { inject, ref, watch } from 'vue';
+import { inject, reactive, ref, watch } from 'vue';
 
 const editing = inject('editing')
 const notes = inject('notes')
+const localNotes = reactive(
+    {   'judul': ''
+    ,   'isi': ''
+})
 
 watch(editing, (editing, prevEditing) => {
+    if (editing)
+    {   localNotes.judul = notes.judul
+        localNotes.isi = notes.isi
+    }
 })
 
 </script>
 
 <template>
     <div :class="{'blank': true, 'blank-active': editing}">
-        <div :class="{'modal': true, 'modal-active': editing}">
+        <div class="modal box shadow" :class="{'modal-active': editing}">
             <div style="display: flex; flex-direction: row; align-items: center;">
-                <button v-on:click="$emit('kembali', [judul, isi])" class="box">&lt;</button>
-                <input v-model="notes.judul" type="text" class="title">
+                <button v-on:click="$emit('kembali', localNotes)" class="box">&lt;</button>
+                <input v-model="localNotes.judul" type="text" class="title">
             </div>
-            <textarea v-model="notes.isi" class="field"></textarea>
+            <textarea v-model="localNotes.isi" class="field"></textarea>
         </div>
     </div>
 </template>
@@ -34,7 +42,6 @@ watch(editing, (editing, prevEditing) => {
 
 @keyframes blank {
     from {background-color: rgba(0,0,0,0);}
-    to {background-color: rgba(0,0,0,0.5);}
 }
 
 .blank-active {
@@ -50,27 +57,24 @@ watch(editing, (editing, prevEditing) => {
     flex-direction: column;
     top: 50%;
     left: 50%;
-    width: 90%;
-    height: 75%;
     background-color: white;
-    transform: translate(-50%, -50%);
-    transition: all;
 }
 
 @keyframes modal {
     from {
-        height: 70%;
-        width: 80%;
-    }
-    to {
-        height: 75%;
-        width: 90%;
+        opacity: 0;
+        width: 50%;
+        height: 50%;
     }
 }
 
 .modal-active {
     animation-name: modal;
     animation-duration: 0.2s;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    height: 75%;
+    opacity: 1;
 }
 
 
