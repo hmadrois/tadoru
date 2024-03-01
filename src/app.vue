@@ -6,10 +6,11 @@ import MainEditor from './components/editor.vue'
 
 import { provide, reactive, ref } from 'vue';
 
-const items = ref([
-    ['a', 'qwe'],
-    ['b', 'asd'],
-    ['c', 'zxc'],
+const items = reactive([
+    ['ruka.isi', 'qwe'],
+    ['aku.kosong', 'zxc'],
+    ['ruka.plot', 'asd'],
+    ['budi', 'asdkjdas']
 ])
 
 const editing = ref(false)
@@ -29,25 +30,25 @@ function itemTambah(){
 }
 
 function itemPilih(index){
-    notes.judul = items.value[index][0]
-    notes.isi = items.value[index][1]
+    notes.judul = items[index][0]
+    notes.isi = items[index][1]
     selected.value = index
     editing.value = true
 }
 
 function kembali(localNotes){
-    items.value[selected.value][0] = localNotes.judul
-    items.value[selected.value][1] = localNotes.isi
-    // notes.judul = ''
-    // notes.isi = ''
+    items[selected.value][0] = localNotes.judul
+    items[selected.value][1] = localNotes.isi
     editing.value = false
     selected.value = -1
+    notes.judul = ''
+    notes.isi = ''
 }
 
 </script>
 
 <template>
-    <div class="content-container">
+    <div class="container">
         <MainHeader @item-tambah="itemTambah" />
         <MainContent @item-pilih="itemPilih" />
         <MainEditor @kembali="kembali" />
@@ -62,15 +63,15 @@ function kembali(localNotes){
     font-weight: bold;
 }
 
-.content-container {
+.container {
     margin: 20px 0;
 }
 
 @media (min-width: 600px){
-    .content-container { margin: 20px 10%; }
+    .container { margin: 20px 10%; }
 }
 @media (min-width: 1200px){
-    .content-container { margin: 20px 20%; }
+    .container { margin: 20px 20%; }
 }
 
 .box {
