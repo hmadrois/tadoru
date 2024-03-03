@@ -7,10 +7,6 @@ import MainEditor from './components/editor.vue'
 import { provide, reactive, ref } from 'vue';
 
 const items = reactive([
-    ['ruka.isi', 'qwe'],
-    ['aku.kosong', 'zxc'],
-    ['ruka.plot', 'asd'],
-    ['budi', 'asdkjdas']
 ])
 
 const editing = ref(false)
@@ -26,7 +22,8 @@ provide('editing', editing)
 provide('notes', notes)
 
 function itemTambah(){
-    console.log("tambah")
+    selected.value = -1
+    editing.value = true
 }
 
 function itemPilih(index){
@@ -37,6 +34,24 @@ function itemPilih(index){
 }
 
 function kembali(localNotes){
+    
+    if (selected.value < 0) {
+        editing.value = false
+        if (localNotes.judul == ''){ return }
+        items.push([localNotes.judul, localNotes.isi])
+        return
+    } 
+    else {
+        if (localNotes.judul == ''){
+            items.splice(selected.value, 1)
+            editing.value = false
+            selected.value = -1
+            notes.judul = ''
+            notes.isi = ''
+            return
+        }
+    }
+
     items[selected.value][0] = localNotes.judul
     items[selected.value][1] = localNotes.isi
     editing.value = false
@@ -50,17 +65,24 @@ function kembali(localNotes){
 <template>
     <div class="container">
         <MainHeader @item-tambah="itemTambah" />
-        <MainContent @item-pilih="itemPilih" />
+        <div class="scrollable">
+            <MainContent @item-pilih="itemPilih" />
+        </div>
         <MainEditor @kembali="kembali" />
     </div>
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
 
 * {
     font-family: "Montserrat";
     font-weight: bold;
+}
+
+.scrollable {
+    overflow-y: scroll;
+    max-height: 80vh;
 }
 
 .container {

@@ -37,7 +37,17 @@ function ambilJudul(arr){
     for (let i = 0; i < arr.length; i++){
         let el = arr[i][0]
         
-        if (el.includes('.')){ el = el.split('.') }
+        
+        if (el.includes('.')){ 
+            el = el.split('.')
+            if (el.length > 2){
+                let last_el = el
+                last_el.splice(0, 1)
+                last_el = last_el.join('.')
+                el = [el[0], last_el]
+            }
+        }
+
         
         new_arr.push(el)
     }
@@ -56,7 +66,7 @@ function ambilJudul(arr){
             <div class="shadow" style="margin-top: 20px;">
                 <button disabled class="box">{{ key }}</button>
                 <template v-for="(subVal, subKey) in val">
-                    <button @click="$emit('itemPilih', subKey)" class="box sub">{{ subVal }}</button>
+                    <button @click="$emit('itemPilih', subKey)" class="box shadow sub">{{ subVal }}</button>
                 </template>
             </div>
         </template>
