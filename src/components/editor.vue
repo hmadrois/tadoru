@@ -91,8 +91,8 @@ watch(editing, (editing, prevEditing) => {
     font-weight: 500;
     position: relative;
     margin: 1rem;
-    border: 1px solid;
-    box-shadow: 0 4px;
+    border: 1px solid rgb(98, 116, 165);
+    box-shadow: 0 4px 0 rgb(0, 50, 125);
     padding: 10px;
     flex-grow: 1;
     outline: none;

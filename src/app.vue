@@ -4,7 +4,9 @@ import MainHeader from './components/header.vue'
 import MainContent from './components/content.vue'
 import MainEditor from './components/editor.vue'
 
-import { provide, reactive, ref } from 'vue';
+import { onMounted, provide, reactive, ref, watch } from 'vue';
+
+import { save, load } from './api'
 
 const items = reactive([
 ])
@@ -21,6 +23,15 @@ provide('items', items)
 provide('editing', editing)
 provide('notes', notes)
 
+watch(items, () => {
+    save(items)
+})
+
+onMounted(() => {
+    var newItems = load()
+    Object.assign(items, newItems)
+})
+
 function itemTambah(){
     selected.value = -1
     editing.value = true
@@ -34,7 +45,6 @@ function itemPilih(index){
 }
 
 function kembali(localNotes){
-    
     if (selected.value < 0) {
         editing.value = false
         if (localNotes.judul == ''){ return }
@@ -103,8 +113,8 @@ function kembali(localNotes){
 }
 
 .shadow {
-    border: 1px solid;
-    box-shadow: 0px 4px black;
+    border: 1px solid rgb(98, 116, 165);
+    box-shadow: 0 4px rgb(47, 72, 110);
 }
 
 </style>

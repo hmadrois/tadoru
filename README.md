@@ -1,5 +1,16 @@
 # tadoru
-To Do list and notes with nested feature
+Nested To Do list
+
+## Usage
+
+
+### add / edit
+examples:
+- a.foo
+- a.bar
+
+### delete
+clear the title
 
 ## Setup
 
