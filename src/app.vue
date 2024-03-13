@@ -88,6 +88,7 @@ function kembali(localNotes){
 * {
     font-family: "Montserrat";
     font-weight: bold;
+    margin: 0;
 }
 
 .scrollable {
@@ -113,6 +114,8 @@ function kembali(localNotes){
 }
 
 .shadow {
+    position: relative;
+    top: -10px;
     border: 1px solid rgb(98, 116, 165);
     box-shadow: 0 4px rgb(47, 72, 110);
 }
